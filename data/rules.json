@@ -1,0 +1,72 @@
+[
+  {
+    "id": "R01",
+    "name": "Require Consent For Record Access",
+    "description": "Patient records require prior consent.",
+    "level": "Access",
+    "status": "ACTIVE",
+    "priority": 1,
+    "trigger": "doctor.requestsPatientRecord AND NOT patientConsent.given",
+    "conditions": [
+      "doctor.requestsPatientRecord",
+      "NOT patientConsent.given"
+    ],
+    "reactions": [
+      "blockAccess(doctor)",
+      "notifyComplianceOfficer('Unauthorized access attempt')"
+    ],
+    "version": 1
+  },
+  {
+    "id": "R02",
+    "name": "Unauthorized Access Hours",
+    "description": "Sensitive records cannot be accessed outside authorized hours.",
+    "level": "Access",
+    "status": "ACTIVE",
+    "priority": 2,
+    "trigger": "patientData.accessed OUTSIDE authorizedHours",
+    "conditions": [
+      "patientData.accessed",
+      "OUTSIDE authorizedHours"
+    ],
+    "reactions": [
+      "blockAccess(user)",
+      "logEvent('Unauthorized access attempt')"
+    ],
+    "version": 1
+  },
+  {
+    "id": "R03",
+    "name": "Patient Specific Disease Privacy",
+    "description": "Sensitive patient-specific disease information requires controlled handling.",
+    "level": "Logical",
+    "status": "ACTIVE",
+    "priority": 3,
+    "trigger": "AI.response CONTAINS patientSpecificDiseaseInformation",
+    "conditions": [
+      "AI.response contains sensitive patient information"
+    ],
+    "reactions": [
+      "filterResponse()",
+      "notifyClinician()"
+    ],
+    "version": 1
+  },
+  {
+    "id": "R04",
+    "name": "Unauthorized Override",
+    "description": "Attempts to bypass access controls are monitored.",
+    "level": "Monitoring",
+    "status": "ACTIVE",
+    "priority": 4,
+    "trigger": "user.attemptsAccessControlOverride",
+    "conditions": [
+      "override detected"
+    ],
+    "reactions": [
+      "logEvent('Override attempt')",
+      "alertSecurityTeam()"
+    ],
+    "version": 1
+  }
+]
