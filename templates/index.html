@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>E-CRiPT — Ethical Rule Governance</title>
+<link rel="stylesheet" href="/static/css/style.css"></head><body>
+<header><div class="brand"><div class="logo">E</div><div><b>E-CRiPT</b>
+<small>Ethical Rule Governance & Clinical AI Compliance</small></div></div>
+<div class="online">● Policy Engine Online</div></header>
+<div class="shell"><aside><div class="nav active">Rule Management</div>
+<div class="nav">Rule Injection</div><div class="nav">Policy Testing</div><div class="nav">Integrity Audit</div>
+<div class="caption">Framework</div><div class="layer">ACCESS<br><span>Controlled interactions</span></div>
+<div class="layer">LOGICAL<br><span>Ethical output validation</span></div>
+<div class="layer">DATA<br><span>Integrity & anchoring</span></div></aside>
+<main><div class="title"><div><h1>Ethical Rules</h1>
+<p>Create, edit, activate, delete and inject declarative compliance rules.</p></div>
+<button onclick="newRule()">+ New Rule</button></div>
+<div class="grid"><section class="card"><h2>Rule Repository <span id="count"></span></h2><div id="rules"></div></section>
+<section class="card editor"><h2>Rule Editor</h2><input type="hidden" id="rid">
+<label>Rule name</label><input id="name" placeholder="RequireConsentForRecordAccess">
+<label>Description</label><input id="description" placeholder="Explain the ethical purpose of the rule">
+<div class="two"><div><label>Level</label><select id="level"><option>Access</option><option>Logical</option><option>Data</option><option>Monitoring</option></select></div>
+<div><label>Priority</label><input id="priority" type="number" min="1" value="5"></div></div>
+<label>WHEN — trigger expression</label><textarea id="trigger" placeholder="doctor.requestsPatientRecord AND NOT patientConsent.given"></textarea>
+<label>Conditions — one per line</label><textarea id="conditions" placeholder="doctor.requestsPatientRecord&#10;NOT patientConsent.given"></textarea>
+<label>DO — reactions/actions, one per line</label><textarea id="reactions" placeholder="blockAccess(doctor)&#10;notifyComplianceOfficer('Unauthorized access attempt')"></textarea>
+<div class="actions"><button class="ghost" onclick="clearEditor()">Cancel</button><button onclick="saveRule()">Save Rule</button></div>
+</section></div>
+<div class="grid bottom"><section class="card"><div class="title small"><div><h2>Rule Injection</h2>
+<p>Select active rules and inject them into the policy pipeline.</p></div><button onclick="inject()">Inject Selected Rules</button></div>
+<div id="injectResult" class="result">No injection performed.</div></section>
+<section class="card"><h2>Policy Test</h2><textarea id="prompt" class="test" placeholder="Doctor requests patient A's record without consent."></textarea>
+<button onclick="test()">Evaluate Selected Rules</button><div id="testResult" class="result">Awaiting evaluation.</div></section></div>
+</main></div><script src="/static/js/app.js"></script></body></html>
